@@ -58,7 +58,7 @@ export default function Games() {
                 X1 BRAZIL
               </h4>
               <div className="flex justify-center items-center bg-primary-gray p-4 rounded-md mb-2">
-                <div>
+                {/* <div>
                   <span className="text-xs">{new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                   <div className="flex justify-start items-center">
                     <Image
@@ -78,9 +78,9 @@ export default function Games() {
                     />
                     <p className="font-bold text-xs ml-2">Jogador Banca 2</p>
                   </div>
-                </div>
+                </div> */}
                 <div className="ml-auto grid grid-cols-3 gap-2">
-                  {odds.map((odd, index) => (
+                  {/* {odds.map((odd, index) => (
                     <div
                       key={index}
                       className={`flex flex-col items-center p-2 rounded-md cursor-pointer ${selectedOdds.some(
@@ -96,7 +96,7 @@ export default function Games() {
                       <p className="text-sm">{odd.type}</p>
                       <p className="font-bold text-sm">{odd.value}</p>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default function Games() {
                 <h2 className="text-lg font-bold">Carrinho de apostas ({betCart.length})</h2>
               </div>
               <div className="flex-grow overflow-y-auto px-4 ">
-                {betCart.map((bet, index) => (
+                {/* {betCart.map((bet, index) => (
                   <div key={index} className="flex flex-col border-b mb-2 pb-2">
                     <div className="rounded-t-md bg-secondary-gray">
                       <span className="font-bold text-xs px-2">{bet.match}</span>
@@ -121,7 +121,7 @@ export default function Games() {
                       <p className="font-bold text-xs text-primary-blue">{bet.value}</p>
                     </div>
                   </div>
-                ))}
+                ))} */}
               </div>
               <div className="px-4 pb-2">
                 <input

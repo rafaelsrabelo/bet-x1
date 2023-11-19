@@ -8,6 +8,7 @@ import { api } from '@/services/api';
 import { toast } from 'react-toastify';
 import nookies from 'nookies';
 import { GetServerSideProps } from 'next';
+import logo from './../../../public/icon.png';
 
 const loginForm = z.object({
   email: z.string(),
@@ -66,7 +67,7 @@ export default function SignIn() {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <Link href="/" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           <Image
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+            src={logo}
             alt="logo"
             width={32}
             height={32}

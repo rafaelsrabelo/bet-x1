@@ -7,6 +7,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '@/services/api';
 import { toast } from 'react-toastify';
+import logo from './../../../public/icon.png';
 
 const userFormSchema = z.object({
   name: z.string(),
@@ -46,7 +47,7 @@ export default function SignUp() {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <Link className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white" href="/">
           <Image
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+            src={logo}
             alt="logo"
             width={32}
             height={32}

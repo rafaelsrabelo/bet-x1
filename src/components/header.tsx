@@ -4,6 +4,7 @@ import { Menu } from '@headlessui/react';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/router';
+import logo from './../../public/icon.png';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,9 +30,9 @@ export function Header() {
 
   return (
     <div className="bg-primary-blue text-text bold text-sm flex py-4 px-8 justify-between items-center sticky top-0 z-20">
-      <Link className="flex items-cente" href="/">
+      <Link className="flex items-center font-bold" href="/">
         <Image
-          src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+          src={logo}
           alt="logo"
           width={32}
           height={32}
@@ -79,9 +80,9 @@ export function Header() {
 
       {!isMobile && (
         <nav className="md:flex items-center gap-4 text-md">
-          <Link className='text-sm font-bold text-text' href="/games">Jogos do dia</Link>
-          <Link className='text-sm font-bold text-text' href="/historic">Apostas</Link>
-          <Link className='text-sm font-bold text-text' href="/ranking">Ranking</Link>
+          <Link className='text-sm text-text' href="/games">Jogos do dia</Link>
+          <Link className='text-sm text-text' href="/historic">Apostas</Link>
+          <Link className='text-sm text-text' href="/ranking">Ranking</Link>
           <button className='text-sm font-bold bg-white rounded-md px-2 text-text' onClick={logout}>Sair</button>
         </nav>
       )}
