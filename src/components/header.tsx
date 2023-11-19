@@ -3,26 +3,45 @@ import { useMediaQuery } from 'react-responsive';
 import { Menu } from '@headlessui/react';
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 export function Header() {
-  // Estado para controle do menu mobile
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Hook para verificar se a tela é um dispositivo móvel
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const router = useRouter();
+
+  async function logout() {
+    try {
+      const response = await fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (response.ok) {
+        router.push('/auth/signin');
+      } else {
+        console.error('Falha ao fazer logout');
+      }
+    } catch (error) {
+      console.error('Erro ao fazer logout', error);
+    }
+  };
+
 
   return (
     <div className="bg-primary-blue text-text bold text-sm flex py-4 px-8 justify-between items-center sticky top-0 z-20">
-      <Link href="/">
-        {/* <Image src='/icon.png' alt="Icon da letra B, logo da Banca" width={124} height={124} /> */}
-        <h4 className='text-lg text-text font-bold'>@logomarca</h4>
+      <Link className="flex items-cente" href="/">
+        <Image
+          src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+          alt="logo"
+          width={32}
+          height={32}
+          className="w-8 h-8 mr-2"
+        />
       </Link>
 
-      {/* Menu para dispositivos móveis */}
       {isMobile && (
         <Menu as="div" className="relative inline-block">
           <Menu.Button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {/* Ícone do menu hamburger */}
             <div className="space-y-2">
               <span className="block w-8 h-1 bg-white"></span>
               <span className="block w-8 h-1 bg-white"></span>
@@ -36,7 +55,7 @@ export function Header() {
                   <Link href="/games">
                     <div className={`${active ? 'bg-gray-100' : ''} block px-4 py-2 text-sm`}>
                       <Link href="/games">
-                        Jogos do dia
+                        Jogos do dia 171F23 45C6B7
                       </Link>
                     </div>
                     <div className={`${active ? 'bg-gray-100' : ''} block px-4 py-2 text-sm`}>
@@ -47,11 +66,6 @@ export function Header() {
                     <div className={`${active ? 'bg-gray-100' : ''} block px-4 py-2 text-sm`}>
                       <Link href="/ranking">
                         Ranking
-                      </Link>
-                    </div>
-                    <div className={`${active ? 'bg-gray-100' : ''} block px-4 py-2 text-sm`}>
-                      <Link href="/">
-                        Login
                       </Link>
                     </div>
                   </Link>
@@ -68,7 +82,7 @@ export function Header() {
           <Link className='text-sm font-bold text-text' href="/games">Jogos do dia</Link>
           <Link className='text-sm font-bold text-text' href="/historic">Apostas</Link>
           <Link className='text-sm font-bold text-text' href="/ranking">Ranking</Link>
-          <Link className='text-sm font-bold bg-white rounded-md px-2 py-1 text-text' href="/">Login</Link>
+          <button className='text-sm font-bold bg-white rounded-md px-2 text-text' onClick={logout}>Sair</button>
         </nav>
       )}
     </div>
