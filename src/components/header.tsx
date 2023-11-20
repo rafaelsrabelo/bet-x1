@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import logo from './../../public/icon.png';
+import { deleteCookie, getCookie } from '@/utils/cookies';
+import { api } from '@/services/api';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,24 +14,16 @@ export function Header() {
   const router = useRouter();
 
   async function logout() {
-    try {
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
-      if (response.ok) {
-        router.push('/auth/signin');
-      } else {
-        console.error('Falha ao fazer logout');
-      }
-    } catch (error) {
-      console.error('Erro ao fazer logout', error);
-    }
+    // const response = await api.post('/api/logout');
+    // if(response.status === 200) {
+      deleteCookie("auth_token");
+      api.defaults.headers['Authorization'] = null;
+      router.push("/auth/signin");
+    // }
   };
 
-
   return (
-    <div className="bg-primary-blue text-text bold text-sm flex py-4 px-8 justify-between items-center sticky top-0 z-20">
+    <div className="bg-primary-gray bold text-sm flex py-4 px-8 justify-between items-center sticky top-0 z-20">
       <Link className="flex items-center font-bold" href="/">
         <Image
           src={logo}
@@ -38,6 +32,7 @@ export function Header() {
           height={32}
           className="w-8 h-8 mr-2"
         />
+        O REI DA BANCA
       </Link>
 
       {isMobile && (
@@ -80,9 +75,9 @@ export function Header() {
 
       {!isMobile && (
         <nav className="md:flex items-center gap-4 text-md">
-          <Link className='text-sm text-text' href="/games">Jogos do dia</Link>
-          <Link className='text-sm text-text' href="/historic">Apostas</Link>
-          <Link className='text-sm text-text' href="/ranking">Ranking</Link>
+          <Link className='text-sm text-white' href="/games">Jogos do dia</Link>
+          <Link className='text-sm text-white' href="/historic">Apostas</Link>
+          <Link className='text-sm text-white' href="/ranking">Ranking</Link>
           <button className='text-sm font-bold bg-white rounded-md px-2 text-text' onClick={logout}>Sair</button>
         </nav>
       )}

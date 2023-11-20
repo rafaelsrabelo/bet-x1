@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import nookies from 'nookies';
 import { GetServerSideProps } from 'next';
 import logo from './../../../public/icon.png';
+import { createCookie } from '@/utils/cookies';
 
 const loginForm = z.object({
   email: z.string(),
@@ -28,30 +29,21 @@ export default function SignIn() {
     resolver: zodResolver(loginForm),
 
   });
-  const notify = () => toast("Login efetuado!");
   const notifyError = () => toast.error("Usuário não encontrado!");
-
+  
   async function login(data: UseForm) {
     try {
       const response = await api.post('auth/signin', data);
       if (response.status === 200) {
-        const token = response.data.token;
-
-        const setCookieResponse = await fetch('/api/setCookie', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token }),
-          credentials: 'include',
-        });
-
-        if (setCookieResponse.ok) {
-          router.push('/games');
-          notify();
-        } else {
-          notifyError();
+        
+        const token = response.data?.token;
+        if (!token) {
+          throw new Error('Token not found');
         }
+        api.defaults.headers['Authorization'] = 'Bearer ' + token;
+        createCookie({ cookieName: "auth_token", payload: token});
+        router.push('/games')
+        toast("Login efetuado!");
       } else {
         notifyError();
       }
@@ -60,7 +52,6 @@ export default function SignIn() {
       console.error("Erro ao fazer login:", error);
     }
   }
-
 
   return (
     <section className="">
@@ -106,22 +97,3 @@ export default function SignIn() {
     </section>
   );
 }
-
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookies = nookies.get(ctx);
-  const token = cookies.token;
-
-  if (token) {
-    return {
-      redirect: {
-        destination: '/games',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
